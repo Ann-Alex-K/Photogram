@@ -1,0 +1,150 @@
+<template>
+  <div class="edit">
+    <label>Your e-mail</label>
+    <div class="register">
+      <input required v-model="newEmail" type="editor" placeholder="email" />
+    </div>
+
+    <label>Your avatar</label>
+
+    <div>
+      <image-input v-model="imageData" />
+    </div>
+
+    <div
+      class="image-input"
+      :style="{ 'background-image': `url(${imageData})` }"
+      @click="chooseImage"
+    >
+      <span v-if="!imageData" class="placeholder"> Choose an Image </span>
+      <input
+        class="file-input"
+        ref="fileInput"
+        type="file"
+        @input="onSelectFile"
+      />
+    </div>
+    <button v-on:click="submitFile()">Submit</button>
+    <br />
+    <p v-show="step === 2">Please, add Image</p>
+    <p v-show="step === 3">Please, add e-mail</p>
+    <p v-show="step === 4">Please, add Image and e-mail</p>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+import axios from "axios";
+
+export default {
+  name: "UploadUserPhoto",
+  props: {
+    userId: Number,
+  },
+  data() {
+    return {
+      users: null,
+      user: null,
+      imageData: null,
+      newEmail: "",
+      step: 1,
+    };
+  },
+  computed: {
+    ...mapGetters(["USERS"]),
+  },
+  created() {
+    this.getUser();
+    this.GET_USERS_FROM_API();
+  },
+  methods: {
+    ...mapActions(["GET_USERS_FROM_API"]),
+    async getUser() {
+      const response = await axios.get(
+        "http://localhost:3000/users/" + this.$store.state.token.split(".")[2]
+      );
+      this.user = response.data;
+    },
+    chooseImage() {
+      this.$refs.fileInput.click();
+    },
+    onSelectFile() {
+      const input = this.$refs.fileInput;
+      const files = input.files;
+      if (files && files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+        this.$emit("input", files[0]);
+      }
+    },
+    async submitFile() {
+      if (this.imageData && this.newEmail) {
+        const user = this.USERS.find((user) => user.id === this.userId);
+        console.log(user);
+        axios.put(`http://localhost:3000/users/${this.userId}`, {
+          username: this.user.username,
+          userImage: this.imageData,
+          userId: this.userId,
+          password: this.user.password,
+          email: this.newEmail,
+          role: this.user.role,
+        });
+        this.$router.push({ name: "profile", params: { userId: this.userId } });
+        this.reloadPage();
+      } else if (this.imageData) {
+        this.step = 3;
+      } else if (this.newEmail) {
+        this.step = 2;
+      } else {
+        this.step = 4;
+      }
+    },
+    reloadPage() {
+      window.location.reload();
+    },
+  },
+};
+</script>
+
+<style  scoped>
+.image-input {
+  display: block;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center center;
+  margin: auto;
+  margin-bottom: 25px;
+  margin-top: 20px;
+}
+
+.placeholder {
+  background: #f0f0f0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 18px;
+}
+
+.placeholder:hover {
+  background: #e0e0e0;
+}
+
+.file-input {
+  display: none;
+}
+
+.edit {
+  margin-top: 70px;
+}
+label {
+  font-size: 1.5rem;
+}
+</style>
