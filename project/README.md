@@ -1,5 +1,15 @@
 # project
 
+### Install JSON Server
+```
+npm i --save-dev json-server
+```
+
+### Starting the json server
+```
+npx json-server users.json
+```
+
 ## Project setup
 ```
 npm install
