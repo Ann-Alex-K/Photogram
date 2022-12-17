@@ -2,7 +2,7 @@
 
 ### Install JSON Server
 ```
-npm i --save-dev json-server
+npm install -g json-server
 ```
 
 ### Starting the json server
