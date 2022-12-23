@@ -24,11 +24,12 @@
         @input="onSelectFile"
       />
     </div>
-    <button v-on:click="submitFile()">Submit</button>
+    <button v-on:click="editUser()">Submit</button>
     <br />
     <p v-show="step === 2">Please, add Image</p>
     <p v-show="step === 3">Please, add e-mail</p>
     <p v-show="step === 4">Please, add Image and e-mail</p>
+    <p v-show="step === 5">You are update your profile</p>
   </div>
 </template>
 
@@ -64,6 +65,7 @@ export default {
         "http://localhost:3000/users/" + this.$store.state.token.split(".")[2]
       );
       this.user = response.data;
+      console.log(this.user.userId);
     },
     chooseImage() {
       this.$refs.fileInput.click();
@@ -80,20 +82,16 @@ export default {
         this.$emit("input", files[0]);
       }
     },
-    async submitFile() {
+    editUser() {
       if (this.imageData && this.newEmail) {
-        const user = this.USERS.find((user) => user.id === this.userId);
-        console.log(user);
-        axios.put(`http://localhost:3000/users/${this.userId}`, {
-          username: this.user.username,
-          userImage: this.imageData,
-          userId: this.userId,
-          password: this.user.password,
-          email: this.newEmail,
-          role: this.user.role,
-        });
+        //     const user = this.USERS.find((user) => user.id === this.userId);
+        //       console.log(user);
+        this.submitFile();
+        this.getUser();
+        // this.step = 5;
+        this.GET_USERS_FROM_API();
+        this.getUser();
         this.$router.push({ name: "profile", params: { userId: this.userId } });
-        this.reloadPage();
       } else if (this.imageData) {
         this.step = 3;
       } else if (this.newEmail) {
@@ -102,8 +100,15 @@ export default {
         this.step = 4;
       }
     },
-    reloadPage() {
-      window.location.reload();
+    async submitFile() {
+      axios.put(`http://localhost:3000/users/${this.userId}`, {
+        username: this.user.username,
+        userImage: this.imageData,
+        userId: this.userId,
+        password: this.user.password,
+        email: this.newEmail,
+        role: this.user.role,
+      });
     },
   },
 };

@@ -24,7 +24,7 @@
         @input="onSelectFile"
       />
     </div>
-    <button v-on:click="submitFile()">Submit</button>
+    <button v-on:click="pushPost()">Submit</button>
     <br />
     <p v-show="step === 2">Please, add Image</p>
     <p v-show="step === 3">Please, add caption</p>
@@ -81,20 +81,11 @@ export default {
         this.$emit("input", files[0]);
       }
     },
-    async submitFile() {
+    pushPost() {
       if (this.imageData && this.caption) {
-        axios.post(`http://localhost:3000/posts/`, {
-          username: this.user.username,
-          userImage: this.user.userImage,
-          userId: this.user.userId,
-          role: this.user.role,
-          postImage: this.imageData,
-          caption: this.caption,
-          likes: 0,
-          hasBeenLiked: false,
-        });
-        this.$router.push({ name: "/" });
-        this.reloadPage();
+        this.submitFile();
+        this.getPosts();
+        this.$router.push({ name: "posts" });
       } else if (this.imageData) {
         this.step = 3;
       } else if (this.caption) {
@@ -103,8 +94,17 @@ export default {
         this.step = 4;
       }
     },
-    reloadPage() {
-      window.location.reload();
+    async submitFile() {
+      axios.post(`http://localhost:3000/posts/`, {
+        username: this.user.username,
+        userImage: this.user.userImage,
+        userId: this.user.userId,
+        role: this.user.role,
+        postImage: this.imageData,
+        caption: this.caption,
+        likes: 0,
+        hasBeenLiked: false,
+      });
     },
   },
 };

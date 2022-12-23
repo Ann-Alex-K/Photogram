@@ -41,7 +41,6 @@ export default {
     user: Object,
     id: Number,
   },
-  created() {},
   methods: {
     editCom() {
       this.edit = !this.edit;
@@ -66,10 +65,9 @@ export default {
       let result = await response.json();
       console.log(result);
     },
-
     delCom(id) {
       this.updateCom(id);
-      this.reloadPage();
+      this.$emit("deleteCom");
     },
     async updateCom(id) {
       const response = await fetch(`http://localhost:3000/comments/${id}`, {
@@ -77,10 +75,6 @@ export default {
       });
       let result = await response.json();
       console.log(result);
-    },
-
-    reloadPage() {
-      window.location.reload();
     },
   },
 };

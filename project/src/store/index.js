@@ -6,12 +6,26 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     users: [],
+    comments: [],
     token: localStorage.getItem('token') || '',
     role: localStorage.getItem('role') || '',
   },
   mutations: {
     SET_USERS_TO_STATE: (state, users) => {
       state.users = users;
+    },
+    SET_COM_TO_STATE: (state, comments) => {
+      state.comments = comments;
+    },
+    SET_TOKEN_TO_STATE: (state, token) => {
+      state.token = token;
+    },
+    SET_ROLE_TO_STATE: (state, role) => {
+      state.role = role;
+    },
+    REMOVE_USER: (state) => {
+      state.token = '';
+      state.role = '';
     },
     SET_USERS: (state, item) => {
       let user = {
@@ -36,16 +50,60 @@ export default new Vuex.Store({
         return error
       }
     },
+    async GET_COM_FROM_API({
+      commit
+    }) {
+      try {
+        const comments = await axios(`http://localhost:3000/comments`, {
+          method: "GET"
+        })
+        commit('SET_COM_TO_STATE', comments.data)
+        return comments
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
     async ADD_NEW_USER({
       commit
     }, item) {
       const response = await axios.post(' http://localhost:3000/users', item);
       commit('SET_USERS', response.data)
     },
+    GET_TOKEN({
+      commit
+    }) {
+      let token = localStorage.getItem('token');
+        commit('SET_TOKEN_TO_STATE', token)
+        return token
+      },
+      GET_ROLE({
+        commit
+      }) {
+        let role = localStorage.getItem('role');
+          commit('SET_ROLE_TO_STATE', role)
+          return role
+        },
+        LOGOUT({
+          commit
+        }) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+            commit('REMOVE_USER')
+          },
   },
   getters: {
     USERS(state) {
       return state.users
+    },
+    COMMENTS(state) {
+      return state.comments
+    },
+    TOKEN(state) {
+      return state.token
+    },
+    ROLE(state) {
+      return state.role
     }
   }
 

@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "App",
   data() {
@@ -45,14 +47,10 @@ export default {
   },
 
   methods: {
+    ...mapActions(["LOGOUT"]),
     logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      this.$router.push({ name: "posts" });
-      this.reloadPage();
-    },
-    reloadPage() {
-      window.location.reload();
+      this.LOGOUT();
+      //  this.$router.push({ name: "posts" });
     },
   },
 };

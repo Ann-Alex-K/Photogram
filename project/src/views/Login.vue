@@ -25,13 +25,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
   data() {
     return {
-      email: "",
+      email: "hello@io",
       role: "",
-      password: "",
+      password: "123",
       users: [],
       token: "",
       step: 1,
@@ -41,6 +43,7 @@ export default {
     this.fetchUsers();
   },
   methods: {
+    ...mapActions(["GET_TOKEN", "GET_ROLE"]),
     async fetchUsers() {
       const response = await fetch("http://localhost:3000/users/");
       this.users = await response.json();
@@ -51,18 +54,19 @@ export default {
           this.role = user.role;
           this.token = `jwt-token.${user.role}.${user.userId}.${user.username}`;
           this.saveToken();
+          this.saveRole();
+          this.GET_TOKEN();
+          this.GET_ROLE();
           this.$router.push({ name: "posts" });
-          this.reloadPage();
         } else {
           this.step = 2;
         }
       }
     },
-    reloadPage() {
-      window.location.reload();
-    },
     saveToken() {
       localStorage.setItem("token", this.token);
+    },
+    saveRole() {
       localStorage.setItem("role", this.role);
     },
   },

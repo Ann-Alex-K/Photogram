@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      user: null,
+      user: this.getUser() || null,
       posts: [],
     };
   },
@@ -99,6 +99,7 @@ export default {
     $route() {
       this.getUser(this.user);
       this.getPosts(this.posts);
+    //  this.GET_USERS_FROM_API(this.$store.state.users);
     },
   },
   methods: {

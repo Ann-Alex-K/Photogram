@@ -28,11 +28,7 @@
                     placeholder="Comment..."
                   />
                 </p>
-                <button
-                  type="button"
-                  id="btnPageAdress"
-                  @click="submitComment"
-                >
+                <button type="button" id="btnPageAdress" @click="submitComment">
                   Add comment
                 </button>
               </form>
@@ -45,7 +41,12 @@
     <div class="comment">
       <ul>
         <li v-for="(comment, i) in comments" :key="i">
-          <Comment :comment="comment" :user="user" :id="comment.id" />
+          <Comment
+            :comment="comment"
+            :user="user"
+            :id="comment.id"
+            @deleteCom="spliceCom(i)"
+          />
         </li>
       </ul>
     </div>
@@ -100,6 +101,7 @@ export default {
           text: this.newComment,
         });
         this.addCom();
+
         this.newComment = "";
       }
     },
@@ -117,8 +119,12 @@ export default {
         },
         body: JSON.stringify(comment),
       });
+      this.fetchComments();
       let result = await response.json();
       console.log(result);
+    },
+    spliceCom(index) {
+      this.comments.splice(index, 1);
     },
   },
 };
