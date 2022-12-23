@@ -87,7 +87,6 @@ export default {
         //     const user = this.USERS.find((user) => user.id === this.userId);
         //       console.log(user);
         this.submitFile();
-        this.getUser();
         // this.step = 5;
         this.GET_USERS_FROM_API();
         this.getUser();
