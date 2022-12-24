@@ -14,9 +14,6 @@ export default new Vuex.Store({
     SET_USERS_TO_STATE: (state, users) => {
       state.users = users;
     },
-    SET_COM_TO_STATE: (state, comments) => {
-      state.comments = comments;
-    },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token;
     },
@@ -45,20 +42,6 @@ export default new Vuex.Store({
         })
         commit('SET_USERS_TO_STATE', users.data)
         return users
-      } catch (error) {
-        console.log(error)
-        return error
-      }
-    },
-    async GET_COM_FROM_API({
-      commit
-    }) {
-      try {
-        const comments = await axios(`http://localhost:3000/comments`, {
-          method: "GET"
-        })
-        commit('SET_COM_TO_STATE', comments.data)
-        return comments
       } catch (error) {
         console.log(error)
         return error
@@ -95,9 +78,6 @@ export default new Vuex.Store({
   getters: {
     USERS(state) {
       return state.users
-    },
-    COMMENTS(state) {
-      return state.comments
     },
     TOKEN(state) {
       return state.token
