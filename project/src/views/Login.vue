@@ -31,9 +31,9 @@ export default {
   name: "Login",
   data() {
     return {
-      email: "hello@io",
+      email: "",
       role: "",
-      password: "123",
+      password: "",
       users: [],
       token: "",
       step: 1,
