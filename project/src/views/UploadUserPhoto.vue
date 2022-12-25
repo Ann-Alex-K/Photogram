@@ -50,6 +50,9 @@ export default {
   computed: {
     ...mapGetters(["USERS"]),
   },
+     watch: {
+    $route: 'getUser'
+  },
   created() {
     this.getUser();
     this.GET_USERS_FROM_API();

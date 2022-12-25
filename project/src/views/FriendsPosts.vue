@@ -48,6 +48,7 @@
 <script>
 import Like from "../components/Like.vue";
 import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: { Like },
@@ -59,11 +60,9 @@ export default {
     };
   },
   computed: {
-    reversedPosts() {
-      return [...this.posts].reverse();
-    },
+        ...mapGetters(["POSTS"]),
     searchUser() {
-      return this.reversedPosts.filter((el) => {
+      return this.POSTS.filter((el) => {
         return el.username.toLowerCase().includes(this.searchResult);
       });
     },
@@ -75,17 +74,12 @@ export default {
     },
   },
   created() {
-    this.getPosts();
+    this.GET_POSTS_FROM_API();
   },
   methods: {
-    async getPosts() {
-      const response = await axios.get("http://localhost:3000/posts");
-      this.posts = response.data;
-    },
+          ...mapActions(["GET_POSTS_FROM_API"]),
     delPost(index) {
-      const delReversPost = [...this.posts].reverse();
-      delReversPost.splice(index, 1);
-      this.posts = delReversPost.reverse();
+       this.POSTS.splice(index, 1);
     },
     async updatePost(index, id) {
       if (confirm("Do you really want to delete this post?")) {

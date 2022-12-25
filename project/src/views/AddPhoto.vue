@@ -30,6 +30,7 @@
 
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
 
 export default {
   name: "AddPhoto",
@@ -38,7 +39,6 @@ export default {
   },
   data() {
     return {
-      posts: [],
       user: null,
       imageData: null,
       caption: "",
@@ -48,14 +48,11 @@ export default {
 
   created() {
     this.getUser();
-    this.getPosts();
+    this.GET_POSTS_FROM_API();
   },
 
   methods: {
-    async getPosts() {
-      const response = await axios.get("http://localhost:3000/posts");
-      this.posts = response.data;
-    },
+      ...mapActions(["GET_POSTS_FROM_API"]),
     async getUser() {
       const response = await axios.get(
         "http://localhost:3000/users/" + this.userId
@@ -80,7 +77,7 @@ export default {
     pushPost() {
       if (this.imageData && this.caption) {
         this.submitFile();
-        this.getPosts();
+        this.GET_POSTS_FROM_API();
         this.$router.push({ name: "posts" });
       } else if (this.imageData) {
         this.step = 3;

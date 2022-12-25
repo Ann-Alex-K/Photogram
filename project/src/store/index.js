@@ -6,13 +6,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     users: [],
-    comments: [],
+    posts: [],
     token: localStorage.getItem('token') || '',
     role: localStorage.getItem('role') || '',
   },
   mutations: {
     SET_USERS_TO_STATE: (state, users) => {
       state.users = users;
+    },
+    SET_POSTS_TO_STATE: (state, posts) => {
+      state.posts = posts.reverse();
     },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token;
@@ -42,6 +45,20 @@ export default new Vuex.Store({
         })
         commit('SET_USERS_TO_STATE', users.data)
         return users
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
+    async GET_POSTS_FROM_API({
+      commit
+    }) {
+      try {
+        const posts = await axios('http://localhost:3000/posts', {
+          method: "GET"
+        })
+        commit('SET_POSTS_TO_STATE', posts.data)
+        return posts
       } catch (error) {
         console.log(error)
         return error
@@ -78,6 +95,9 @@ export default new Vuex.Store({
   getters: {
     USERS(state) {
       return state.users
+    },
+    POSTS(state) {
+      return state.posts;
     },
     TOKEN(state) {
       return state.token
