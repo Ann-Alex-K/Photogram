@@ -40,7 +40,6 @@ export default {
   },
   data() {
     return {
-      users: null,
       user: null,
       imageData: null,
       newEmail: "",
@@ -61,10 +60,9 @@ export default {
     ...mapActions(["GET_USERS_FROM_API"]),
     async getUser() {
       const response = await axios.get(
-        "http://localhost:3000/users/" + this.$store.state.token.split(".")[2]
+        "http://localhost:3000/users/" + this.userId
       );
       this.user = response.data;
-      console.log(this.user.userId);
     },
     chooseImage() {
       this.$refs.fileInput.click();

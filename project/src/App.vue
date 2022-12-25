@@ -18,7 +18,7 @@
           >Profile</router-link
         >
         |
-        <span class="logut" @click="logout">Logout</span>
+        <span class="logout" @click="logout">Logout</span>
         <router-link :to="{ name: 'AddPhoto', params: { userId: isLoggedIn } }">
           <div class="input__wrapper">
             <label for="input__file" class="input__file-button">

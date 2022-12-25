@@ -50,7 +50,7 @@
         <template
           v-if="post.username == isLoggedInName || $store.state.role == 'admin'"
         >
-          <span class="deletePost" @click="updatePost(i, post.id)"> ╳</span>
+          <span class="deletePost" @click="delPost(i, post.id)"> ╳</span>
         </template>
         <div class="img-contain">
           <img class="postImg" :src="post.postImage" />
@@ -92,13 +92,13 @@ export default {
   },
   created() {
     this.getUser();
-    this.getPosts();
+    this.getUserPosts();
     this.GET_USERS_FROM_API();
   },
   watch: {
     $route() {
       this.getUser(this.user);
-      this.getPosts(this.posts);
+      this.getUserPosts(this.posts);
     //  this.GET_USERS_FROM_API(this.$store.state.users);
     },
   },
@@ -110,21 +110,21 @@ export default {
       );
       this.user = response.data;
     },
-    async getPosts() {
+    async getUserPosts() {
       const response = await axios.get(
         `http://localhost:3000/posts?userId=${this.userId}`
       );
       this.posts = response.data;
     },
-    delPost(index) {
+    splicePost(index) {
       const delReversPost = [...this.posts].reverse();
       delReversPost.splice(index, 1);
       this.posts = delReversPost.reverse();
     },
-    async updatePost(index, id) {
+    async delPost(index, id) {
       if (confirm("Do you really want to delete this post?")) {
         await axios.delete(`http://localhost:3000/posts/${id}`);
-        this.delPost(index);
+        this.splicePost(index);
         return true;
       } else {
         return false;
