@@ -20,7 +20,7 @@
               post.username == isLoggedInName || $store.state.role == 'admin'
             "
           >
-            <span class="deletePost" @click="updatePost(i, post.id)"> ╳</span>
+            <span class="deletePost" @click="delPost(i, post.id)"> ╳</span>
           </template>
         </div>
 
@@ -78,13 +78,13 @@ export default {
   },
   methods: {
           ...mapActions(["GET_POSTS_FROM_API"]),
-    delPost(index) {
+    splicePost(index) {
        this.POSTS.splice(index, 1);
     },
-    async updatePost(index, id) {
+    async delPost(index, id) {
       if (confirm("Do you really want to delete this post?")) {
         await axios.delete(`http://localhost:3000/posts/${id}`);
-        this.delPost(index);
+        this.splicePost(index);
         return true;
       } else {
         return false;
