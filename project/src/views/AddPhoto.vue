@@ -7,10 +7,6 @@
 
     <label>Your post</label>
 
-    <div>
-      <image-input v-model="imageData" />
-    </div>
-
     <div
       class="image-input"
       :style="{ 'background-image': `url(${imageData})` }"
@@ -62,7 +58,7 @@ export default {
     },
     async getUser() {
       const response = await axios.get(
-        "http://localhost:3000/users/" + this.$store.state.token.split(".")[2]
+        "http://localhost:3000/users/" + this.userId
       );
       this.user = response.data;
     },

@@ -7,10 +7,6 @@
 
     <label>Your avatar</label>
 
-    <div>
-      <image-input v-model="imageData" />
-    </div>
-
     <div
       class="image-input"
       :style="{ 'background-image': `url(${imageData})` }"
