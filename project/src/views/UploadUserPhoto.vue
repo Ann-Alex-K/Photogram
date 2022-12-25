@@ -101,12 +101,9 @@ export default {
     },
     async submitFile() {
       axios.put(`http://localhost:3000/users/${this.userId}`, {
-        username: this.user.username,
+        ...this.user,
         userImage: this.imageData,
-        userId: this.userId,
-        password: this.user.password,
         email: this.newEmail,
-        role: this.user.role,
       });
     },
   },

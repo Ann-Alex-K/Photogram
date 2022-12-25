@@ -31,26 +31,14 @@ export default {
       if (this.postLike.hasBeenLiked === true) {
         this.count++;
         axios.put(`http://localhost:3000/posts/${this.postLike.id}`, {
-          id: this.postLike.id,
-          username: this.postLike.username,
-          userImage: this.postLike.userImage,
-          userId: this.postLike.userId,
-          role: this.postLike.role,
-          postImage: this.postLike.postImage,
-          caption: this.postLike.caption,
+          ...this.postLike,
           likes: this.count,
           hasBeenLiked: true,
         });
       } else if (this.postLike.hasBeenLiked === false) {
         this.count--;
         axios.put(`http://localhost:3000/posts/${this.postLike.id}`, {
-          id: this.postLike.id,
-          username: this.postLike.username,
-          userImage: this.postLike.userImage,
-          userId: this.postLike.userId,
-          role: this.postLike.role,
-          postImage: this.postLike.postImage,
-          caption: this.postLike.caption,
+          ...this.postLike,
           likes: this.count,
           hasBeenLiked: false,
         });
