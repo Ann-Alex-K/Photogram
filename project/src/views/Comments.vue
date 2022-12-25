@@ -1,7 +1,9 @@
 <template>
   <div class="boxPost">
     <div class="header">
-      <router-link :to="{ name: 'profile', params: { userId: post.userId } }">
+     <router-link  v-if="post.userId"
+            :to="{ name: 'profile', params: { userId: post.userId } }"
+          >
         <img class="userImage" :src="post.userImage" />
         <span class="username"> {{ post.username }}</span>
       </router-link>
@@ -56,6 +58,7 @@
 <script>
 import Like from "../components/Like.vue";
 import Comment from "../components/Comment.vue";
+
 export default {
   components: { Like, Comment },
   name: "Comments",
@@ -64,9 +67,9 @@ export default {
   },
   data() {
     return {
-      post: null,
+      post: {},
       newComment: "",
-      user: null,
+      user: {},
       comments: [],
     };
   },
