@@ -25,12 +25,11 @@
                   <input
                     required
                     type="text"
-                    id="writeComment"
                     v-model="newComment"
                     placeholder="Comment..."
                   />
                 </p>
-                <button type="button" id="btnPageAdress" @click="submitComment">
+                <button type="button" @click="submitComment">
                   Add comment
                 </button>
               </form>
