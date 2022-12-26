@@ -1,7 +1,7 @@
 <template>
   <div class="boxPost">
     <div class="header">
-     <router-link  v-if="post.userId"
+     <router-link  
             :to="{ name: 'profile', params: { userId: post.userId } }"
           >
         <img class="userImage" :src="post.userImage" />
