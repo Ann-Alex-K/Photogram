@@ -161,6 +161,7 @@ export default {
 }
 .header {
   flex-basis: 300px;
+  margin-top: 40px;
 }
 
 .change {
