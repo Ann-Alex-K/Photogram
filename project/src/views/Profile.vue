@@ -59,20 +59,7 @@
           <Like :postLike="post" />
           <div class="newComment">
             <router-link :to="{ name: 'comments', params: { id: post.id } }">
-              <div class="change-icons">
-                <div class="change-icon">
-                  <img
-                    class="commentIcons"
-                    src="@/assets/comment-white-ovalpng.png"
-                  />
-                </div>
-                <div class="change-icon">
-                  <img
-                    class="commentIcons"
-                    src="@/assets/comment-black-oval.png"
-                  />
-                </div>
-              </div>
+              <ChangeComIcon />
             </router-link>
           </div>
         </div>
@@ -83,10 +70,12 @@
 
 <script>
 import Like from "../components/Like.vue";
+import ChangeComIcon from "../components/ChangeComIcon.vue";
 import axios from "axios";
 import { mapActions } from "vuex";
+
 export default {
-  components: { Like },
+  components: { Like, ChangeComIcon },
   name: "UserProfile",
   props: {
     userId: Number,
@@ -187,17 +176,6 @@ export default {
   align-items: center;
   justify-content: center;
   max-width: 100%;
-}
-
-.commentIcons {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  cursor: pointer;
-  margin-left: 15px;
-  margin-top: 3px;
-  padding-bottom: 5px;
-  box-sizing: content-box;
 }
 
 .btn {

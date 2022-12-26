@@ -37,20 +37,7 @@
 
         <div class="newComment">
           <router-link :to="{ name: 'comments', params: { id: post.id } }">
-            <div class="change-icons">
-              <div class="change-icon">
-                <img
-                  class="commentIcon"
-                  src="@/assets/comment-white-ovalpng.png"
-                />
-              </div>
-              <div class="change-icon">
-                <img
-                  class="commentIcon"
-                  src="@/assets/comment-black-oval.png"
-                />
-              </div>
-            </div>
+            <ChangeComIcon />
           </router-link>
         </div>
       </div>
@@ -60,11 +47,12 @@
 
 <script>
 import Like from "../components/Like.vue";
+import ChangeComIcon from "../components/ChangeComIcon.vue";
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: { Like },
+  components: { Like, ChangeComIcon },
   name: "Posts",
   data() {
     return {
@@ -128,31 +116,6 @@ export default {
   width: 60px;
   height: 60px;
   border-radius: 30px;
-}
-.commentIcon {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  cursor: pointer;
-  float: right;
-  margin-right: 35px;
-  padding-bottom: 13px;
-  padding-top: 5px;
-}
-.change-icons .change-icon img {
-  object-fit: cover;
-}
-.change-icons .change-icon:nth-of-type(2) {
-  display: none;
-}
-.change-icons:hover .change-icon:nth-of-type(1) {
-  display: none;
-}
-.change-icons:hover .change-icon:nth-of-type(2) {
-  display: block;
-}
-.change-icons:hover {
-  cursor: pointer;
 }
 
 .postImage {
