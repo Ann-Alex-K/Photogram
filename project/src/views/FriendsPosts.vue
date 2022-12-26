@@ -37,7 +37,20 @@
 
         <div class="newComment">
           <router-link :to="{ name: 'comments', params: { id: post.id } }">
-            <button class="commentButton">Comment</button>
+            <div class="change-icons">
+              <div class="change-icon">
+                <img
+                  class="commentIcon"
+                  src="@/assets/comment-white-ovalpng.png"
+                />
+              </div>
+              <div class="change-icon">
+                <img
+                  class="commentIcon"
+                  src="@/assets/comment-black-oval.png"
+                />
+              </div>
+            </div>
           </router-link>
         </div>
       </div>
@@ -60,7 +73,7 @@ export default {
     };
   },
   computed: {
-        ...mapGetters(["POSTS"]),
+    ...mapGetters(["POSTS"]),
     searchUser() {
       return this.POSTS.filter((el) => {
         return el.username.toLowerCase().includes(this.searchResult);
@@ -77,9 +90,9 @@ export default {
     this.GET_POSTS_FROM_API();
   },
   methods: {
-          ...mapActions(["GET_POSTS_FROM_API"]),
+    ...mapActions(["GET_POSTS_FROM_API"]),
     splicePost(index) {
-       this.POSTS.splice(index, 1);
+      this.POSTS.splice(index, 1);
     },
     async delPost(index, id) {
       if (confirm("Do you really want to delete this post?")) {
@@ -116,6 +129,32 @@ export default {
   height: 60px;
   border-radius: 30px;
 }
+.commentIcon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  cursor: pointer;
+  float: right;
+  margin-right: 35px;
+  padding-bottom: 13px;
+  padding-top: 5px;
+}
+.change-icons .change-icon img {
+  object-fit: cover;
+}
+.change-icons .change-icon:nth-of-type(2) {
+  display: none;
+}
+.change-icons:hover .change-icon:nth-of-type(1) {
+  display: none;
+}
+.change-icons:hover .change-icon:nth-of-type(2) {
+  display: block;
+}
+.change-icons:hover {
+  cursor: pointer;
+}
+
 .postImage {
   max-width: 100%;
   width: 400px;
