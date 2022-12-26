@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Login",
@@ -34,22 +34,20 @@ export default {
       email: "",
       role: "",
       password: "",
-      users: [],
       token: "",
       step: 1,
     };
   },
+computed: {
+    ...mapGetters(["USERS"]),
+  },
   created() {
-    this.fetchUsers();
+    this.GET_USERS_FROM_API();
   },
   methods: {
-    ...mapActions(["GET_TOKEN", "GET_ROLE"]),
-    async fetchUsers() {
-      const response = await fetch("http://localhost:3000/users/");
-      this.users = await response.json();
-    },
+    ...mapActions(["GET_TOKEN", "GET_ROLE", "GET_USERS_FROM_API"]),
     login() {
-      for (let user of this.users) {
+      for (let user of this.USERS) {
         if (user.email == this.email && user.password == this.password) {
           this.role = user.role;
           this.token = `jwt-token.${user.role}.${user.userId}.${user.username}`;
