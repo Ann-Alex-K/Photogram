@@ -54,12 +54,27 @@
         </template>
         <div class="img-contain">
           <img class="postImg" :src="post.postImage" />
-          <Like :postLike="post" />
         </div>
-        <div class="newComment">
-          <router-link :to="{ name: 'comments', params: { id: post.id } }">
-            <button>Comment</button>
-          </router-link>
+        <div class="like-com">
+          <Like :postLike="post" />
+          <div class="newComment">
+            <router-link :to="{ name: 'comments', params: { id: post.id } }">
+              <div class="change-icons">
+                <div class="change-icon">
+                  <img
+                    class="commentIcons"
+                    src="@/assets/comment-white-ovalpng.png"
+                  />
+                </div>
+                <div class="change-icon">
+                  <img
+                    class="commentIcons"
+                    src="@/assets/comment-black-oval.png"
+                  />
+                </div>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </main>
@@ -99,7 +114,7 @@ export default {
     $route() {
       this.getUser(this.user);
       this.getUserPosts(this.posts);
-    //  this.GET_USERS_FROM_API(this.$store.state.users);
+      //  this.GET_USERS_FROM_API(this.$store.state.users);
     },
   },
   methods: {
@@ -165,6 +180,24 @@ export default {
 .profile-image {
   overflow: hidden;
   width: 300px;
+}
+.like-com {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.commentIcons {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-top: 3px;
+  padding-bottom: 5px;
+  box-sizing: content-box;
 }
 
 .btn {
