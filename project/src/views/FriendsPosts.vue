@@ -6,7 +6,7 @@
       <p v-if="noResults">No results</p>
     </div>
     <div class="box">
-      <div class="posts" v-for="(post, i) in searchUser" :key="i">
+      <div class="posts" v-for="(post, i) in searchUser" :key="post.id">
         <div class="header">
           <router-link
             :to="{ name: 'profile', params: { userId: post.userId } }"
@@ -56,16 +56,12 @@ export default {
   name: "Posts",
   data() {
     return {
-      posts: [],
       searchResult: "",
     };
   },
   computed: {
-    reversedPosts() {
-      return [...this.posts].reverse();
-    },
     searchUser() {
-      return this.reversedPosts.filter((el) => {
+      return this.$store.state.posts.filter((el) => {
         return el.username.toLowerCase().includes(this.searchResult);
       });
     },
@@ -77,20 +73,12 @@ export default {
     },
   },
   created() {
-    this.getPosts();
     this.GET_POSTS_FROM_API();
   },
   methods: {
     ...mapActions(["GET_POSTS_FROM_API"]),
-    async getPosts() {
-      const response = await axios.get("http://localhost:3000/posts");
-      this.posts = response.data;
-    },
-
     splicePost(index) {
-      const delReversPost = [...this.posts].reverse();
-      delReversPost.splice(index, 1);
-      this.posts = delReversPost.reverse();
+      this.$store.state.posts.splice(index, 1);
     },
     async delPost(index, id) {
       if (confirm("Do you really want to delete this post?")) {
@@ -104,8 +92,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style>
 .box {

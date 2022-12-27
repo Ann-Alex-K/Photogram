@@ -15,7 +15,7 @@ export default new Vuex.Store({
       state.users = users;
     },
     SET_POSTS_TO_STATE: (state, posts) => {
-      state.posts = posts;
+      state.posts = posts.reverse();
     },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token;
@@ -32,6 +32,12 @@ export default new Vuex.Store({
         ...item
       }
       state.users.items.push(user);
+    },
+    SET_POSTS: (state, item) => {
+      let post = {
+        ...item
+      }
+      state.posts.items.push(post);
     },
 
   },
@@ -69,6 +75,12 @@ export default new Vuex.Store({
     }, item) {
       const response = await axios.post(' http://localhost:3000/users', item);
       commit('SET_USERS', response.data)
+    },
+    async ADD_NEW_POST({
+      commit
+    }, item) {
+      const response = await axios.post(' http://localhost:3000/posts', item);
+      commit('SET_POSTS', response.data)
     },
     GET_TOKEN({
       commit

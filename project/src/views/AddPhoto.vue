@@ -43,6 +43,7 @@ export default {
       imageData: null,
       caption: "",
       step: 1,
+      post: {}
     };
   },
 
@@ -54,7 +55,7 @@ export default {
     ...mapGetters(["USERS"]),
   },
   methods: {
-      ...mapActions(["GET_POSTS_FROM_API", "GET_USERS_FROM_API"]),
+      ...mapActions(["GET_POSTS_FROM_API", "GET_USERS_FROM_API", "ADD_NEW_POST"]),
     chooseImage() {
       this.$refs.fileInput.click();
     },
@@ -84,8 +85,9 @@ export default {
         this.step = 4;
       }
     },
-    async submitFile() {
-      axios.post(`http://localhost:3000/posts/`, {
+    
+    async submitFile(post) {
+      post = {
         username: this.user.username,
         userImage: this.user.userImage,
         userId: this.user.userId,
@@ -94,7 +96,8 @@ export default {
         caption: this.caption,
         likes: 0,
         hasBeenLiked: false,
-      });
+      };
+      this.ADD_NEW_POST(post);
     },
   },
 };
