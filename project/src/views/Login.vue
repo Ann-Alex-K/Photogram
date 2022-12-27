@@ -20,7 +20,8 @@
         <button type="submit">Login</button>
       </div>
     </form>
-    <span v-show="step === 2">You are not registered</span>
+    <span v-show="step === 2">Invalid password</span>
+    <span v-show="step === 3">You are not registered</span>
   </div>
 </template>
 
@@ -38,7 +39,7 @@ export default {
       step: 1,
     };
   },
-computed: {
+  computed: {
     ...mapGetters(["USERS"]),
   },
   created() {
@@ -56,8 +57,10 @@ computed: {
           this.GET_TOKEN();
           this.GET_ROLE();
           this.$router.push({ name: "posts" });
-        } else {
+        } else if (user.email == this.email) {
           this.step = 2;
+        } else {
+          this.step = 3;
         }
       }
     },

@@ -47,6 +47,12 @@
         src="https://i.pinimg.com/originals/e7/91/ca/e791cae0a4268dbb79045289be8388b1.gif"
       />
     </div>
+    <div v-show="step === 3">
+      <h1>You are already registered</h1>
+      <p>Your login details</p>
+      <p>email: {{ this.checkUser.email }}</p>
+      <p>password: {{ this.checkUser.password }}</p>
+    </div>
   </div>
 </template>
 
@@ -63,6 +69,7 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
+      checkUser: {},
     };
   },
   computed: {
@@ -74,17 +81,23 @@ export default {
   methods: {
     ...mapActions(["GET_USERS_FROM_API", "ADD_NEW_USER"]),
     register(user) {
-      user = {
-        id: this.USERS.length,
-        username: this.username,
-        userId: this.USERS.length,
-        password: this.password,
-        email: this.email,
-        role: "user",
-        userImage: "",
-      };
-      this.ADD_NEW_USER(user);
-      this.step++;
+      this.checkUser = this.USERS.find((user) => user.email === this.email);
+      if (!this.checkUser) {
+        user = {
+          id: this.USERS.length,
+          username: this.username,
+          userId: this.USERS.length,
+          password: this.password,
+          email: this.email,
+          role: "user",
+          userImage: "",
+          checkMail: "",
+        };
+        this.ADD_NEW_USER(user);
+        this.step = 2;
+      } else {
+        this.step = 3;
+      }
     },
   },
 };
