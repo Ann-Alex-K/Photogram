@@ -14,7 +14,7 @@
 
     <div class="img-box">
       <img class="postImg" :src="post.postImage" />
-      <Like v-if="post.likes" :postLike="this.post" />
+      <Like v-if="post.likes || post.likes==0" :postLike="this.post" :count="0"/>
       <template v-if="this.$store.state.token">
         <form>
           <div class="newComment">

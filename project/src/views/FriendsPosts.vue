@@ -49,7 +49,7 @@
 import Like from "../components/Like.vue";
 import ChangeComIcon from "../components/ChangeComIcon.vue";
 import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   components: { Like, ChangeComIcon },
@@ -61,9 +61,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["POSTS"]),
+    reversedPosts() {
+      return [...this.posts].reverse();
+    },
     searchUser() {
-      return this.POSTS.filter((el) => {
+      return this.reversedPosts.filter((el) => {
         return el.username.toLowerCase().includes(this.searchResult);
       });
     },
@@ -75,12 +77,20 @@ export default {
     },
   },
   created() {
+    this.getPosts();
     this.GET_POSTS_FROM_API();
   },
   methods: {
     ...mapActions(["GET_POSTS_FROM_API"]),
+    async getPosts() {
+      const response = await axios.get("http://localhost:3000/posts");
+      this.posts = response.data;
+    },
+
     splicePost(index) {
-      this.POSTS.splice(index, 1);
+      const delReversPost = [...this.posts].reverse();
+      delReversPost.splice(index, 1);
+      this.posts = delReversPost.reverse();
     },
     async delPost(index, id) {
       if (confirm("Do you really want to delete this post?")) {

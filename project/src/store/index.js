@@ -15,7 +15,7 @@ export default new Vuex.Store({
       state.users = users;
     },
     SET_POSTS_TO_STATE: (state, posts) => {
-      state.posts = posts.reverse();
+      state.posts = posts;
     },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token;
