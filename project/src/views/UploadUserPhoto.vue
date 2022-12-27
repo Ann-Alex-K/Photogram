@@ -25,7 +25,7 @@
     <p v-show="step === 2">Please, add Image</p>
     <p v-show="step === 3">Please, add e-mail</p>
     <p v-show="step === 4">Please, add Image and e-mail</p>
-    <p v-show="step === 5">You are update your profile</p>
+   <!-- <p v-show="step === 5">You are update your profile</p>-->
   </div>
 </template>
 
@@ -49,21 +49,14 @@ export default {
   computed: {
     ...mapGetters(["USERS"]),
   },
-     watch: {
-    $route: 'getUser'
+  watch: {
+    $route: "getUser",
   },
   created() {
-    this.getUser();
     this.GET_USERS_FROM_API();
   },
   methods: {
     ...mapActions(["GET_USERS_FROM_API"]),
-    async getUser() {
-      const response = await axios.get(
-        "http://localhost:3000/users/" + this.userId
-      );
-      this.user = response.data;
-    },
     chooseImage() {
       this.$refs.fileInput.click();
     },
@@ -81,12 +74,10 @@ export default {
     },
     editUser() {
       if (this.imageData && this.newEmail) {
-        //     const user = this.USERS.find((user) => user.id === this.userId);
-        //       console.log(user);
+        this.user = this.USERS.find((user) => user.id === this.userId);
         this.submitFile();
         // this.step = 5;
         this.GET_USERS_FROM_API();
-        this.getUser();
         this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else if (this.imageData) {
         this.step = 3;
