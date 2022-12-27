@@ -31,13 +31,13 @@ export default new Vuex.Store({
       let user = {
         ...item
       }
-      state.users.items.push(user);
+      state.users.push(user);
     },
     SET_POSTS: (state, item) => {
       let post = {
         ...item
       }
-      state.posts.items.push(post);
+      state.posts.push(post);
     },
 
   },
