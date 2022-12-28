@@ -8,12 +8,7 @@
     <div class="box">
       <div class="posts" v-for="(post, i) in searchUser" :key="post.id">
         <div class="header">
-          <router-link
-            :to="{ name: 'profile', params: { userId: post.userId } }"
-          >
-            <img class="userImage" :src="post.userImage" />
-            <span class="username"> {{ post.username }} </span>
-          </router-link>
+          <HeaderUser :post="post" />
 
           <template
             v-if="
@@ -48,11 +43,12 @@
 <script>
 import Like from "../components/Like.vue";
 import ChangeComIcon from "../components/ChangeComIcon.vue";
+import HeaderUser from "../components/HeaderUser.vue";
 import axios from "axios";
 import { mapActions } from "vuex";
 
 export default {
-  components: { Like, ChangeComIcon },
+  components: { Like, ChangeComIcon, HeaderUser },
   name: "Posts",
   data() {
     return {
@@ -108,11 +104,6 @@ export default {
   position: relative;
   margin-top: 30px;
 }
-.userImage {
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-}
 
 .postImage {
   max-width: 100%;
@@ -123,14 +114,6 @@ export default {
   padding: 10px 0;
   box-shadow: 0 14px 28px rgba(150, 150, 150, 0.25),
     0 10px 10px rgba(150, 150, 150, 0.25);
-}
-.username {
-  top: -20px;
-  position: relative;
-  padding-left: 5px;
-  font-size: 1rem;
-  font-weight: bold;
-  padding-top: 30px;
 }
 
 .likes {

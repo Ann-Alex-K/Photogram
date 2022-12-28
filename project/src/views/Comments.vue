@@ -1,12 +1,7 @@
 <template>
   <div class="boxPost">
     <div class="header">
-     <router-link  
-            :to="{ name: 'profile', params: { userId: post.userId } }"
-          >
-        <img class="userImage" :src="post.userImage" />
-        <span class="username"> {{ post.username }}</span>
-      </router-link>
+      <HeaderUser :post="post" />
       <p class="caption">
         <span>{{ post.username }}</span> {{ post.caption }}
       </p>
@@ -14,7 +9,11 @@
 
     <div class="img-box">
       <img class="postImg" :src="post.postImage" />
-      <Like v-if="post.likes || post.likes==0" :postLike="this.post" :count="0"/>
+      <Like
+        v-if="post.likes || post.likes == 0"
+        :postLike="this.post"
+        :count="0"
+      />
       <template v-if="this.$store.state.token">
         <form>
           <div class="newComment">
@@ -57,9 +56,10 @@
 <script>
 import Like from "../components/Like.vue";
 import Comment from "../components/Comment.vue";
+import HeaderUser from "../components/HeaderUser.vue";
 
 export default {
-  components: { Like, Comment },
+  components: { Like, Comment, HeaderUser },
   name: "Comments",
   props: {
     id: Number,
