@@ -28,9 +28,7 @@
                     placeholder="Comment..."
                   />
                 </p>
-                <button type="button" @click="submitComment">
-                  Add comment
-                </button>
+                <button type="button" @click="addCom">Add comment</button>
               </form>
             </li>
           </div>
@@ -95,18 +93,6 @@ export default {
       );
       this.comments = await response.json();
     },
-    submitComment() {
-      if (this.newComment && this.user.username) {
-        this.comments.push({
-          postId: this.id,
-          author: this.user.username,
-          text: this.newComment,
-        });
-        this.addCom();
-
-        this.newComment = "";
-      }
-    },
     async addCom() {
       let username = this.user.username;
       let comment = {
@@ -124,6 +110,7 @@ export default {
       this.fetchComments();
       let result = await response.json();
       console.log(result);
+      this.newComment = "";
     },
     spliceCom(index) {
       this.comments.splice(index, 1);
