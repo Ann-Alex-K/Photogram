@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="searchUser">
+    <div class="searchUser-wrapper">
       <label>Search user </label>
       <input required v-model="searchResult" placeholder="Write username" />
       <p v-if="noResults">No results</p>
     </div>
-    <div class="box">
+    <div class="main-box">
       <div class="posts" v-for="(post, i) in searchUser" :key="post.id">
         <div class="header">
           <HeaderUser :post="post" />
@@ -90,16 +90,16 @@ export default {
 </script>
 
 <style>
-.box {
+.main-box {
   display: flex;
   flex-wrap: wrap;
   margin: 10px;
 }
-.box > * {
+.main-box > * {
   flex: 1 1 400px;
   margin: 10px;
 }
-.searchUser {
+.searchUser-wrapper {
   width: 100%;
   position: relative;
   margin-top: 30px;

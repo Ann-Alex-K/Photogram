@@ -1,5 +1,5 @@
 <template>
-  <div class="boxPost">
+  <div class="main-box-post">
     <div class="header">
       <HeaderUser :post="post" />
       <p class="caption">
@@ -16,7 +16,7 @@
       />
       <template v-if="this.$store.state.token">
         <form>
-          <div class="newComment">
+          <div>
             <li>
               <form>
                 <p><b>Write a comment:</b></p>
@@ -36,7 +36,7 @@
       </template>
     </div>
 
-    <div class="comment">
+    <div>
       <ul>
         <li v-for="(comment, i) in comments" :key="i">
           <Comment
@@ -127,7 +127,7 @@ export default {
   height: 400px;
   flex-grow: 2;
 }
-.boxPost {
+.main-box-post {
   display: flex;
   flex-wrap: wrap;
   margin: -10px;
@@ -136,12 +136,8 @@ export default {
   box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5),
     1px 1px 5px rgba(255, 255, 255, 1);
 }
-.boxPost > * {
+.main-box-post > * {
   margin: 10px;
-}
-.comment {
-  margin-top: 40px;
-  flex-basis: 300px;
 }
 .img-box {
   width: 40%;
@@ -149,16 +145,6 @@ export default {
 .header {
   flex-basis: 300px;
   margin-top: 40px;
-}
-
-.change {
-  color: rgb(194, 192, 192);
-  font-size: 0.8rem;
-  cursor: pointer;
-  padding-left: 10px;
-}
-.change:hover {
-  color: rgb(31, 22, 83);
 }
 ul {
   padding: 0px;

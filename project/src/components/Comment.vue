@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="comment">
+    <div class="comment-list-wrapper">
       <p v-if="!edit">
         <span>{{ comment.author }}</span> {{ comment.text }}
         <template
           v-if="user.username == comment.author || $store.state.role == 'admin'"
         >
           <div>
-            <span class="change" @click="editCom()">change</span>
-            <span class="change" @click="delCom(id)"> delete</span>
+            <span class="change-com-button" @click="editCom()">change</span>
+            <span class="change-com-button" @click="delCom(id)"> delete</span>
           </div>
         </template>
       </p>
@@ -19,7 +19,9 @@
           v-if="user.username == comment.author || $store.state.role == 'admin'"
         >
           <div>
-            <span class="change" @click="editCom(), saveCom(id)">save</span>
+            <span class="change-com-button" @click="editCom(), saveCom(id)"
+              >save</span
+            >
           </div>
         </template>
       </p>
@@ -79,3 +81,20 @@ export default {
   },
 };
 </script>
+
+
+<style>
+.comment-list-wrapper {
+  margin-top: 40px;
+  flex-basis: 300px;
+}
+.change-com-button {
+  color: rgb(194, 192, 192);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding-left: 10px;
+}
+.change-com-button:hover {
+  color: rgb(31, 22, 83);
+}
+</style> 
