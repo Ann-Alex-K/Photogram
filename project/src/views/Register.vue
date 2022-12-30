@@ -91,7 +91,6 @@ export default {
           email: this.email,
           role: "user",
           userImage: "",
-          checkMail: "",
         };
         this.ADD_NEW_USER(user);
         this.step = 2;
