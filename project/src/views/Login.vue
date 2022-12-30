@@ -57,7 +57,7 @@ export default {
           this.GET_TOKEN();
           this.GET_ROLE();
           this.$router.push({ name: "posts" });
-        } else if (user.email == this.email) {
+        } else if (user.email == this.email && user.password !== this.password) {
           this.step = 2;
         } else {
           this.step = 3;

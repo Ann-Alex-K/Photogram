@@ -47,6 +47,7 @@
         src="https://i.pinimg.com/originals/e7/91/ca/e791cae0a4268dbb79045289be8388b1.gif"
       />
     </div>
+
     <div v-show="step === 3">
       <h1>You are already registered</h1>
       <p>Your login details</p>
@@ -81,8 +82,9 @@ export default {
   methods: {
     ...mapActions(["GET_USERS_FROM_API", "ADD_NEW_USER"]),
     register(user) {
-      this.checkUser = this.USERS.find((user) => user.email === this.email);
-      if (!this.checkUser) {
+      const checkUser = this.USERS.find((user) => user.email == this.email);
+      if (!checkUser) {
+        this.step = 2;
         user = {
           id: this.USERS.length,
           username: this.username,
@@ -93,8 +95,8 @@ export default {
           userImage: "",
         };
         this.ADD_NEW_USER(user);
-        this.step = 2;
       } else {
+        this.checkUser = checkUser;
         this.step = 3;
       }
     },
