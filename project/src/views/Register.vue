@@ -81,11 +81,11 @@ export default {
   },
   methods: {
     ...mapActions(["GET_USERS_FROM_API", "ADD_NEW_USER"]),
-    register(user) {
+    register() {
       const checkUser = this.USERS.find((user) => user.email == this.email);
       if (!checkUser) {
         this.step = 2;
-        user = {
+        this.ADD_NEW_USER({ 
           id: this.USERS.length,
           username: this.username,
           userId: this.USERS.length,
@@ -93,8 +93,7 @@ export default {
           email: this.email,
           role: "user",
           userImage: "",
-        };
-        this.ADD_NEW_USER(user);
+        });
       } else {
         this.checkUser = checkUser;
         this.step = 3;
