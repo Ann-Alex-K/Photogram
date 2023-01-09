@@ -23,6 +23,7 @@
                 <p>
                   <input
                     required
+                    id="comment-input"
                     type="text"
                     v-model="newComment"
                     placeholder="Comment..."
@@ -100,17 +101,21 @@ export default {
         author: username,
         text: this.newComment,
       };
-      const response = await fetch("http://localhost:3000/comments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(comment),
-      });
-      this.fetchComments();
-      let result = await response.json();
-      console.log(result);
-      this.newComment = "";
+      if (this.newComment.length > 0) {
+        const response = await fetch("http://localhost:3000/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(comment),
+        });
+        this.fetchComments();
+        let result = await response.json();
+        console.log(result);
+        this.newComment = "";
+      } else {
+        document.getElementById('comment-input').placeholder='Add some text';
+      }
     },
     spliceCom(index) {
       this.comments.splice(index, 1);
