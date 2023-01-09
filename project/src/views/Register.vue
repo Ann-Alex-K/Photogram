@@ -92,7 +92,7 @@ export default {
           password: this.password,
           email: this.email,
           role: "user",
-          userImage: "",
+          userImage: "https://abrakadabra.fun/uploads/posts/2021-12/thumbs/1640528667_5-abrakadabra-fun-p-serii-chelovek-na-avu-6.jpg",
         });
       } else {
         this.checkUser = checkUser;
