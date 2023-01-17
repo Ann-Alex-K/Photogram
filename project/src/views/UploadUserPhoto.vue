@@ -22,10 +22,7 @@
     </div>
     <button v-on:click="editUser()">Submit</button>
     <br />
-    <p v-show="step === 2">Please, add Image</p>
-    <p v-show="step === 3">Please, add e-mail</p>
-    <p v-show="step === 4">Please, add Image and e-mail</p>
-   <!-- <p v-show="step === 5">You are update your profile</p>-->
+    <p v-show="step === 2">Please, add Image or Email</p>
   </div>
 </template>
 
@@ -73,25 +70,28 @@ export default {
       }
     },
     editUser() {
+       this.user = this.USERS.find((user) => user.id === this.userId);
       if (this.imageData && this.newEmail) {
-        this.user = this.USERS.find((user) => user.id === this.userId);
-        this.submitFile();
+        this.submitFile(this.imageData, this.newEmail);
         // this.step = 5;
         this.GET_USERS_FROM_API();
         this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else if (this.imageData) {
-        this.step = 3;
+        this.user = this.USERS.find((user) => user.id === this.userId);
+        this.submitFile(this.imageData, this.user.email);
+        this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else if (this.newEmail) {
-        this.step = 2;
+         this.submitFile(this.user.userImage, this.newEmail);
+        this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else {
-        this.step = 4;
+        this.step = 2;
       }
     },
-    async submitFile() {
+    async submitFile(img, email) {
       axios.put(`http://localhost:3000/users/${this.userId}`, {
         ...this.user,
-        userImage: this.imageData,
-        email: this.newEmail,
+        userImage: img,
+        email: email,
       });
     },
   },

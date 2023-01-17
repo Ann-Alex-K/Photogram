@@ -111,7 +111,6 @@ export default {
         });
         this.fetchComments();
         let result = await response.json();
-        console.log(result);
         this.newComment = "";
       } else {
         document.getElementById('comment-input').placeholder='Add some text';
