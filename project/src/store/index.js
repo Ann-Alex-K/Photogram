@@ -66,6 +66,12 @@ export default new Vuex.Store({
         commit('SET_POSTS_TO_STATE', posts.data)
         return posts
       } catch (error) {
+        let mainBox = document.querySelector('.main-box')
+        const err = document.createElement('h1')
+        err.classList.add('err')
+        err.innerHTML = `The server is temporarily unavailable.<br>
+       Use the command in the terminal: npx json-server users.json`
+        mainBox.appendChild(err)
         console.log(error)
         return error
       }
@@ -86,23 +92,23 @@ export default new Vuex.Store({
       commit
     }) {
       let token = localStorage.getItem('token');
-        commit('SET_TOKEN_TO_STATE', token)
-        return token
-      },
-      GET_ROLE({
-        commit
-      }) {
-        let role = localStorage.getItem('role');
-          commit('SET_ROLE_TO_STATE', role)
-          return role
-        },
-        LOGOUT({
-          commit
-        }) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
-            commit('REMOVE_USER')
-          },
+      commit('SET_TOKEN_TO_STATE', token)
+      return token
+    },
+    GET_ROLE({
+      commit
+    }) {
+      let role = localStorage.getItem('role');
+      commit('SET_ROLE_TO_STATE', role)
+      return role
+    },
+    LOGOUT({
+      commit
+    }) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      commit('REMOVE_USER')
+    },
   },
   getters: {
     USERS(state) {

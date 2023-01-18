@@ -195,4 +195,8 @@ button:hover {
 .deletePost:hover {
   color: rgb(0, 0, 0);
 }
+
+.err {
+  margin-top: 5em;
+}
 </style>
