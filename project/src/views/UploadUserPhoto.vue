@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       user: null,
+      posts: [],
       imageData: null,
       newEmail: "",
       step: 1,
@@ -51,9 +52,16 @@ export default {
   },
   created() {
     this.GET_USERS_FROM_API();
+    this.getUserPosts();
   },
   methods: {
     ...mapActions(["GET_USERS_FROM_API"]),
+    async getUserPosts() {
+      const response = await axios.get(
+        `http://localhost:3000/posts?userId=${this.userId}`
+      );
+      this.posts = response.data;
+    },
     chooseImage() {
       this.$refs.fileInput.click();
     },
@@ -70,18 +78,18 @@ export default {
       }
     },
     editUser() {
-       this.user = this.USERS.find((user) => user.id === this.userId);
+      this.user = this.USERS.find((user) => user.id === this.userId);
       if (this.imageData && this.newEmail) {
         this.submitFile(this.imageData, this.newEmail);
-        // this.step = 5;
-        this.GET_USERS_FROM_API();
+        this.submitFilePosts(this.imageData);
         this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else if (this.imageData) {
         this.user = this.USERS.find((user) => user.id === this.userId);
         this.submitFile(this.imageData, this.user.email);
+        this.submitFilePosts(this.imageData);
         this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else if (this.newEmail) {
-         this.submitFile(this.user.userImage, this.newEmail);
+        this.submitFile(this.user.userImage, this.newEmail);
         this.$router.push({ name: "profile", params: { userId: this.userId } });
       } else {
         this.step = 2;
@@ -92,6 +100,14 @@ export default {
         ...this.user,
         userImage: img,
         email: email,
+      });
+    },
+    async submitFilePosts(img) {
+      this.posts.forEach((el) => {
+        axios.put(`http://localhost:3000/posts/` + el.id, {
+          ...el,
+          userImage: img,
+        });
       });
     },
   },
